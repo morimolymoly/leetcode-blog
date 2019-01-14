@@ -1,7 +1,6 @@
 ---
 title: "Two Sum"
 date: 2019-01-14T15:18:07+09:00
-draft: true
 ---
 
 # 問題概要

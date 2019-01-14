@@ -3,26 +3,18 @@ jobs:
   build:
     docker:
         - image: cibuilds/hugo:latest
-    working_directory: ~/work
+    working_directory: ~/hugo
+    environment:
+      HUGO_BUILD_DIR: ~/hugo/public
     steps:
+      - run: apk update && apk add git
       - checkout
-      - run:
-          name: config
-          command: |
-              apk update && apk add git
-              HUGO_ENV=production hugo -v
-              git config --global user.name "morimolymoly"
-              git config --global user.email "morimolymoly@gmail.com"
-
+      - run: ls
+      - run: git submodule sync && git submodule update --init
+      - run: HUGO_ENV=production hugo -v -d $HUGO_BUILD_DIR
       - run:
           name: push to master
           command: |
-              git clone https://github.com/morimolymoly/leetcode-blog --recursive
-              hugo
-              cp -rp public/* github.io/
-              cd github.io
-              ls
-              git remote set-url origin git@github.com:morimolymoly/leetcode-blog
-              git add .
-              git commit -m "[ci skip] publish"
-              git push origin master
+              git config --global user.name "morimolymoly"
+              git config --global user.email "morimolymoly@gmail.com"
+              
