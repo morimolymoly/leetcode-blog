@@ -2,14 +2,15 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/golang:1.9
+        - image: cibuilds/hugo:latest
     working_directory: ~/work
     steps:
       - checkout
       - run:
-          name: hugo install
+          name: config
           command: |
-              go get -v github.com/spf13/hugo
+              apk update && apk add git
+              HUGO_ENV=production hugo -v
               git config --global user.name "morimolymoly"
               git config --global user.email "morimolymoly@gmail.com"
 
