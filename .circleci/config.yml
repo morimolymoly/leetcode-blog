@@ -17,6 +17,7 @@ jobs:
           name: push to master
           command: |
               git clone https://github.com/morimolymoly/leetcode-blog
+              git submodule foreach git pull origin master
               hugo
               cp -rp public/* github.io/
               cd github.io
