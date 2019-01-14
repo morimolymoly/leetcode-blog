@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.9
+    working_directory: /work
+    steps:
+      - checkout
+      - run:
+          name: hugo install
+          command: |
+              go get -v github.com/spf13/hugo
+              git config --global user.name "morimolymoly"
+              git config --global user.email "morimolymoly@gmail.com"
+
+      - run:
+          name: push to master
+          command: |
+              git clone https://github.com/morimolymoly/leetcode-blog
+              hugo
+              cp -rp public/* github.io/
+              cd github.io
+              ls
+              git remote set-url origin git@github.com:morimolymoly/leetcode-blog
+              git add .
+              git commit -m "[ci skip] publish"
+              git push origin master
