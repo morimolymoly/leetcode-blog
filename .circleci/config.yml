@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.9
-    working_directory: /work
+    working_directory: ~/work
     steps:
       - checkout
       - run:
@@ -16,8 +16,7 @@ jobs:
       - run:
           name: push to master
           command: |
-              git clone https://github.com/morimolymoly/leetcode-blog
-              git submodule foreach git pull origin master
+              git clone https://github.com/morimolymoly/leetcode-blog --recursive
               hugo
               cp -rp public/* github.io/
               cd github.io
